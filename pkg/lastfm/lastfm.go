@@ -34,3 +34,25 @@ func (c *Client) GetFriends(
 
 	return f.Friends, nil
 }
+
+func (c *Client) SearchTracks(
+	title string,
+) (SearchResults, error) {
+	url := buildTrackSearchRequestUrl(title, c.ApiKey)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println(err)
+		return SearchResults{}, err
+	}
+	defer resp.Body.Close()
+
+	var srw SearchResultsWrapper
+	err = json.NewDecoder(resp.Body).Decode(&srw)
+	if err != nil {
+		log.Println(err)
+		return SearchResults{}, err
+	}
+
+	return srw.SearchResults, nil
+}

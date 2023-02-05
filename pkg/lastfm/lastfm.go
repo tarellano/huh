@@ -80,3 +80,48 @@ func (c *Client) GetTrack(
 
 	return tr.Track, nil
 }
+
+func (c *Client) SearchArtists(
+	title string,
+) (SearchResults, error) {
+	url := buildArtistSearchRequestUrl(title, c.ApiKey)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println(err)
+		return SearchResults{}, err
+	}
+	defer resp.Body.Close()
+
+	var srw SearchResultsWrapper
+	err = json.NewDecoder(resp.Body).Decode(&srw)
+	if err != nil {
+		log.Println(err)
+		return SearchResults{}, err
+	}
+
+	return srw.SearchResults, nil
+}
+
+func (c *Client) GetArtist(
+	artist string,
+	username string,
+) (Artist, error) {
+	url := buildArtistRequestUrl(artist, username, c.ApiKey)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println(err)
+		return Artist{}, err
+	}
+	defer resp.Body.Close()
+
+	var ar ArtistResult
+	err = json.NewDecoder(resp.Body).Decode(&ar)
+	if err != nil {
+		log.Println(err)
+		return Artist{}, err
+	}
+
+	return ar.Artist, nil
+}

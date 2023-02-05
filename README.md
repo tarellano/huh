@@ -1,4 +1,4 @@
-# Have yo(u) heard
+# Have u heard
 
 Have you heard (huh) is a last.fm integration which allows you to quickly check if your friends have heard a track, album, or artist.
 

@@ -3,3 +3,6 @@ build:
 
 clean:
 	rm -rf bin/
+
+test: build
+	./bin/huh --api-key=$$LASTFM_API_KEY --username=tarellano8 --artist "Tame Impala"

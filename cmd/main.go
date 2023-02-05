@@ -36,6 +36,7 @@ func main() {
 
 	if len(result) < 1 {
 		fmt.Println("No results found...")
+		return
 	}
 
 	fmt.Printf("Have you heard %s (%s)?\nLet's see...\n", result[0].Title, result[0].Url)

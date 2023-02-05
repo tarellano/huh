@@ -56,3 +56,27 @@ func (c *Client) SearchTracks(
 
 	return srw.SearchResults, nil
 }
+
+func (c *Client) GetTrack(
+	title string,
+	artist string,
+	username string,
+) (Track, error) {
+	url := buildTrackRequestUrl(title, artist, username, c.ApiKey)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println(err)
+		return Track{}, err
+	}
+	defer resp.Body.Close()
+
+	var tr TrackResult
+	err = json.NewDecoder(resp.Body).Decode(&tr)
+	if err != nil {
+		log.Println(err)
+		return Track{}, err
+	}
+
+	return tr.Track, nil
+}

@@ -81,6 +81,52 @@ func (c *Client) GetTrack(
 	return tr.Track, nil
 }
 
+func (c *Client) SearchAlbums(
+	album string,
+) (SearchResults, error) {
+	url := buildAlbumSearchRequestUrl(album, c.ApiKey)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println(err)
+		return SearchResults{}, err
+	}
+	defer resp.Body.Close()
+
+	var srw SearchResultsWrapper
+	err = json.NewDecoder(resp.Body).Decode(&srw)
+	if err != nil {
+		log.Println(err)
+		return SearchResults{}, err
+	}
+
+	return srw.SearchResults, nil
+}
+
+func (c *Client) GetAlbum(
+	album string,
+	artist string,
+	username string,
+) (Album, error) {
+	url := buildAlbumRequestUrl(album, artist, username, c.ApiKey)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		log.Println(err)
+		return Album{}, err
+	}
+	defer resp.Body.Close()
+
+	var ar AlbumResult
+	err = json.NewDecoder(resp.Body).Decode(&ar)
+	if err != nil {
+		log.Println(err)
+		return Album{}, err
+	}
+
+	return ar.Album, nil
+}
+
 func (c *Client) SearchArtists(
 	title string,
 ) (SearchResults, error) {

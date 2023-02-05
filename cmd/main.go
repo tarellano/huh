@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"sort"
 
 	"tarellano.com/huh/cmd/huh"
 )
@@ -32,6 +33,17 @@ func main() {
 		fmt.Println(err)
 		return
 	}
+
+	if len(result) < 1 {
+		fmt.Println("No results found...")
+	}
+
+	fmt.Printf("Have you heard %s (%s)?\nLet's see...\n", result[0].Title, result[0].Url)
+
+	// Sort by most listened to to least
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].PlayCount > result[j].PlayCount
+	})
 
 	for _, r := range result {
 		fmt.Printf("%s listened to %s %d times.\n", r.User.Name, r.Title, r.PlayCount)

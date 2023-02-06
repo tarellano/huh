@@ -15,10 +15,13 @@ type SearchResults struct {
 	AlbumMatches  AlbumMatches  `json:"albummatches"`
 }
 
-func buildTrackSearchRequestUrl(title string, apiKey string) string {
+func buildTrackSearchRequestUrl(title string, artist string, apiKey string) string {
 	params := url.Values{}
 	params.Add("method", "track.search")
 	params.Add("track", title)
+	if artist != "" {
+		params.Add("artist", artist)
+	}
 	params.Add("api_key", apiKey)
 	params.Add("format", "json")
 	return fmt.Sprintf("%s?%s", API_ROOT, params.Encode())

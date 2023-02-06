@@ -37,8 +37,9 @@ func (c *Client) GetFriends(
 
 func (c *Client) SearchTracks(
 	title string,
+	artist string,
 ) (SearchResults, error) {
-	url := buildTrackSearchRequestUrl(title, c.ApiKey)
+	url := buildTrackSearchRequestUrl(title, artist, c.ApiKey)
 
 	resp, err := http.Get(url)
 	if err != nil {

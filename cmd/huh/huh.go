@@ -32,7 +32,7 @@ func GetStats(
 	}
 
 	if len(trackName) > 0 {
-		track := findTrack(trackName, *client)
+		track := findTrack(trackName, artistName, *client)
 		return getTrackStats(track, friends.User, client)
 	}
 
@@ -51,9 +51,10 @@ func GetStats(
 
 func findTrack(
 	trackName string,
+	artistName string,
 	client lastfm.Client,
 ) lastfm.SimpleTrack {
-	results, err := client.SearchTracks(trackName)
+	results, err := client.SearchTracks(trackName, artistName)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

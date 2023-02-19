@@ -9,6 +9,9 @@ cd huh
 make build
 ./bin/huh --api-key=$LASTFM_API_KEY --username=<your-lastfm-username> --track <track-name> --album <album-name> --artist <artist-name>
 ```
+
+> **_NOTE:_** Get an API key from last.fm (https://www.last.fm/api/authentication)
+
 The track, album, and artist are all optional as long as at least one of them is provided.
 
 Example:
